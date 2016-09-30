@@ -79,6 +79,7 @@ p<-ggplotly(ggplot(df, aes(state, `Revenue ($)`, colour=state, label = `store ID
     facet_wrap(~year))
 
 
+##Publish to plotly
 plotly_POST(p, filename = "dans_plotly_example")
 
 
