@@ -11,6 +11,10 @@ output:
 
 ##First make up some fake revenue data for a company with a number of shops operating in each State from 2012 to 2015:
 ```{r setup}
+Sys.setenv("plotly_username"="DanielPNewman")
+Sys.setenv("plotly_api_key"="ldbkt0fdxl")
+
+
 ### Install/load required packages
 #List of R packages required for this analysis:
 required_packages <- c("ggplot2", "stringr", "plotly", "dplyr")
@@ -63,20 +67,21 @@ ggplot(df, aes(state, `Revenue ($)`, colour=state, label = `store ID`)) +
 
 ##Now make the plot reactive to the user's mouse by wrapping plotly's ggplotly() function around it:
 ```{r Plot2, warning=FALSE}
-ggplotly(ggplot(df, aes(state, `Revenue ($)`, colour=state, label = `store ID`)) +
+p<-ggplotly(ggplot(df, aes(state, `Revenue ($)`, colour=state, label = `store ID`)) +
     geom_boxplot() + 
     geom_point() +
-    theme(plot.margin=unit(c(2,2,2,2),"cm")) + #top,right,bottom,left 
     theme(axis.title.x =  element_blank(),
           axis.text.x  =  element_blank(), 
           axis.title.y = element_text(face="bold", size=12),
-          axis.text.y  = element_text(angle=0, vjust=0.5, size=11),
+          axis.text.y  = element_text(angle=0, vjust=0.5, size=10),
           legend.title = element_text(size=12, face="bold"),
-          legend.text = element_text(size = 12, face = "bold"),
-          plot.title = element_text(face="bold", size=14)) +
-    ggtitle("Store Revenue per State from 2012 to 2015") +
-    facet_wrap(~year),
-    height=900, width=900)
+          legend.text = element_text(size = 12, face = "bold"))+
+    facet_wrap(~year))
+
+
+plotly_POST(p, filename = "dans_plotly_example")
+
+
 ```
 
 ###This type of simple plot made using plotly and ggplot2 in R are great because they have some basic "reactivity" to user input, (e.g. hover mouse over data point and lable appears with info. about data point like "store ID"" for example), but they do not need to be hosted on a server - they are simple enough to be knitted into a stand-alone HTML document. 
